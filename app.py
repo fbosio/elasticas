@@ -5,6 +5,8 @@
 - HTTP request, response and error handling
 """
 
+import os
+
 from flask import Flask, request, render_template, abort
 
 import material, plots
@@ -12,6 +14,9 @@ from material import symmetries
 
 
 app = Flask("elasticas")
+
+# The following hack makes the application work in pythonanywhere
+app.root_path = os.path.dirname(os.path.abspath(__file__))
 
 
 @app.route("/", methods=["GET", "POST"])
