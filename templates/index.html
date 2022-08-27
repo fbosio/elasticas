@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Elastic waves</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Web application for calculating velocities of elastic waves in solids.">
+    <script src="{{ url_for('static', filename='scripts/elements.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/subroutines.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/listeners.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  </head>
+  <body>
+    <h1>Elastic waves</h1>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="6">C = Stiffness matrix (GPa)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in range(6) %}
+          <tr>
+          {%for j in range(6) %}
+            <td>
+              <input type="text" id="C{{ i }}{{ j }}" name="C{{ i }}{{ j }}" size="7" placeholder="0.0"
+                {% if i > j %}
+                  disabled
+                {% endif %}
+              >
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <table>
+      <tr> <th scope="row">Density ρ =</th> <td><input type="text" id="rho" name="rho" placeholder="0.0" value="1.0"></td> <td>kg/m<sup>3</sup></td> </tr>
+      <tr>
+        <th scope="row"><label for="symmetry">Symmetry</label></th>
+        <td><select id="symmetry" name="symmetry">
+          {% for symmetry in symmetries %}
+            <option value="{{ symmetry }}">{{ symmetry }}</option>
+          {% endfor %}
+      </select></td> <td></td> </tr>
+      <tr>
+        <th scope="row"><label for="material">Material</label></th>
+        <td><select id="material" name="material">
+        <option value="no-selection" disabled selected> -- Select -- </option>
+          {% for material_type in materials_data %}
+            <optgroup label="{{ material_type }}">
+              {% for material in materials_data[material_type] %}
+                <option value="{{ material }}">{{ material }}</option>
+              {% endfor %}
+            </optgroup>
+          {% endfor %}
+      </select></td> <td><span id="loading">Loading...</span></td> </tr>
+    </table>
+    <table>
+      <tr>
+        <th scope="col">2D plot</th>
+        <th scope="col" colspan="3">2D plot parameters</th>
+      </tr>
+      <tr>
+        <td rowspan="10">
+          <canvas width="480" height="480" id="plot2d">
+            <!-- "Fallback" y accesibilidad -->
+            <p>
+              It seems that this browser does not support the &quot;canvas&quot; tag of the <a href="https://html5test.com/">HTML5 standard.</a>
+            </p>
+            <p>
+              This application <em>needs &quot;canvas&quot;</em> to generate and display interactive plots.
+            </p>
+            <p>
+              Most modern browsers like <a href="https://www.google.com/chrome">Google Chrome</a>, <a href="https://www.mozilla.org/firefox/download">Mozilla Firefox</a> and <a href="https://www.microsoft.com/edge">Microsoft Edge</a> support it and are recommended for running this application correctly.
+            </p>
+          </canvas>
+        </td>
+        <td colspan="3">Coordinate plane</td>
+      </tr>
+      <tr>
+        <td>
+          <input type="radio" name="coordinate-plane" value="XY" id="XY-plane" checked>
+          <label for="XY-plane">XY</label>
+        </td>
+        <td>
+          <input type="radio" name="coordinate-plane" value="XZ" id="XZ-plane">
+          <label for="XZ-plane">XZ</label>
+        </td>
+        <td>
+          <input type="radio" name="coordinate-plane" value="YZ" id="YZ-plane">
+          <label for="YZ-plane">YZ</label>
+        </td>
+      </tr>
+      <tr> <td colspan="3"><label for="angle">Angle (&deg;)</label></td> </tr>
+      <tr> <td colspan="3"><input type="text" id="angle" name="angle" value="0"></td> </tr>
+      <tr> <td colspan="3">
+        <input type="radio" name="dependant-variable" value="velocity" id="velocity" checked>
+        <label for="velocity">Phase velocity (m/s)</label>
+        
+        <input type="radio" name="dependant-variable" value="slowness" id="slowness">
+        <label for="slowness">Slowness (s/m &times; 10<sup>&minus;5</sup>)</label>
+
+        <input type="radio" name="dependant-variable" value="groupvelocity" id="groupvelocity">
+        <label for="groupvelocity">Group velocity (m/s &times; 10<sup>&minus;7</sup>)</label>
+      </td> </tr>
+      <tr>
+        {% for color in colors %}
+          <td><output class="dep-var-output" style="color: {{ color }}">0</output></td>
+        {% endfor %}
+      </tr>
+      <tr> <td colspan="3">Polarization vectors (m)</td> </tr>
+      {% for i in range(3) %}
+        <tr>
+          {% for j in range(3) %}
+              <td>
+                <output id="A{{ i }}{{ j }}" style="color: {{ colors[i] }}">
+                  0
+                </output>
+              </td>
+            {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+    <p>by Fede Bosio, 2022. <a href="https://github.com/fbosio/elasticas">Source code</a></p>
+  </body>
+</html>
