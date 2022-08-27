@@ -95,9 +95,9 @@ var subroutines = {
     };
     this.postData(data, function (json) {
       elements.selects.material.value = json.material;
-      elements.inputs.symmetry.value = json.simetria;
+      elements.inputs.symmetry.value = json.symmetry;
 
-      axesState["2d"].response = json.grafData2d;
+      axesState["2d"].response = json.plotData2d;
 
       subroutines.updatePolarPlot();
 
