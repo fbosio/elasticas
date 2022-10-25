@@ -33,6 +33,7 @@ Similar commands work on Windows from a Powershell, you just probably have to ch
 Make sure you have a proper [execution policy](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
 
 ## Run locally
+Make sure the virtual enviroment is activated and then
 ```bash
 flask run
 ```
