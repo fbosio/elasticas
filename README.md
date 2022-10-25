@@ -16,10 +16,10 @@ If you're on Windows and you don't have git installed, take a look at [git for w
 ## Prepare environment
 Command syntax differs a little bit from one operating system to another but the underlying idea is always the same.
 
-* Make sure you're in the application folder.
-* Create a virtual environment.
-* Activate the virtual environment.
-* Install requirements.
+1. Make sure you're in the application folder.
+2. Create a virtual environment.
+3. Activate the virtual environment.
+4. Install requirements.
 
 ### Example: Ubuntu
 ```bash
