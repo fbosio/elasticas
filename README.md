@@ -1,7 +1,7 @@
 # elasticas
 Web application for calculating velocities of elastic waves in solids.
 
-Currently hosted in http://fbosio.pythonanywhere.com/
+Currently hosted in https://www.elasticas.app/
 
 
 ## Get source code
