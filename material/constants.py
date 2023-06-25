@@ -33,8 +33,6 @@ class ConstantsBase:
         return self._density
 
 
-
-
 class Cubic(ConstantsBase):
     """Material with cubic symmetry."""
 
@@ -111,4 +109,5 @@ CONSTANTS = {
     "Zn (zinc)": Hexagonal(7140, 161, 34.2, 50.1, 61.0, 38.3),
     "ZnO (zinc oxide)": Hexagonal(5606, 209.7, 121.1, 105.1, 210.9, 42.5),
     "Zr (zirconium)": Hexagonal(6501, 143.4, 72.8, 65.3, 164.8, 32.0),
+    "Sandstone": Hexagonal(2500, 34.6, 9.4, 10.7, 28.4, 8.36),
 }
