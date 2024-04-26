@@ -26,7 +26,7 @@ class PolarPlot2D:
     def __call__(self, C, rho):
         _, c, A = calculations.do(C, rho, self.p)
         m = 1e5 / c
-        cg = 1e7 * calculations.get_group_velocities(C, rho, self.p, c, A)
+        cg = calculations.get_group_velocities(C, rho, self.p, c, A)
 
         if (np.isnan(c) | np.isinf(c)).any():
             c = np.zeros_like(c)

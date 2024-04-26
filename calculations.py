@@ -85,6 +85,7 @@ def get_group_velocities(C, rho, l, c, A):
     new_l = l[..., np.newaxis, np.newaxis, :]
     g = new_l @ new_A.swapaxes(-2, -1) @ C @ new_A
     g = g.squeeze().swapaxes(-2, -1) / (rho * c[..., np.newaxis, :])
+    g *= 1e9 # convert units to m/s
 
     return g
 
