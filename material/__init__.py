@@ -21,7 +21,7 @@ def type(material=None):
              'Hexagonal', 'Cubic', 'Isotropic']
     """
 
-    types = ['Triclinic', 'Monoclinic', 'Ortorhombic', 'Tetragonal',
+    types = ['Triclinic', 'Monoclinic', 'Orthorhombic', 'Tetragonal',
              'Hexagonal', 'Cubic', 'Isotropic']
 
     if material is None:
