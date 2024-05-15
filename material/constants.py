@@ -67,6 +67,45 @@ class Hexagonal(ConstantsBase):
         return f"Hexagonal{attributes}"
 
 
+class Orthorhombic(ConstantsBase):
+    """Material with orthorhombic symmetry."""
+
+    def __init__(self, density, c11, c12, c13, c22, c23, c33, c44, c55, c66):
+        """Receive density and 9 independent constants to make the object."""
+        super().__init__(
+            density,
+            {
+                (0, 0): c11,
+                (0, 1): c12,
+                (0, 2): c13,
+                (1, 1): c22,
+                (1, 2): c23,
+                (2, 2): c33,
+                (3, 3): c44,
+                (4, 4): c55,
+                (5, 5): c66,
+            },
+            Material.ORTHORHOMBIC,
+        )
+
+    def __repr__(self):
+        """Return str that displays the material constants."""
+        c = self.matrix
+        attributes = (
+            self.density,
+            c[0, 0],
+            c[0, 1],
+            c[0, 2],
+            c[1, 1],
+            c[1, 2],
+            c[2, 2],
+            c[3, 3],
+            c[4, 4],
+            c[5, 5],
+        )
+        return f"Hexagonal{attributes}"
+
+
 CONSTANTS = {
     "Ag (silver)": Cubic(10490, 124, 93.4, 46.1),
     "Al (aluminium)": Cubic(2700, 108.2, 61.3, 28.5),
@@ -110,4 +149,16 @@ CONSTANTS = {
     "ZnO (zinc oxide)": Hexagonal(5606, 209.7, 121.1, 105.1, 210.9, 42.5),
     "Zr (zirconium)": Hexagonal(6501, 143.4, 72.8, 65.3, 164.8, 32.0),
     "Sandstone": Hexagonal(2500, 34.6, 9.4, 10.7, 28.4, 8.36),
+    "KAP (potassium acid phthalate)": Orthorhombic(
+        1636, 20.1, 11.11, 0.23, 15.17, 5.99, 19.61, 7.64, 5.18, 6.94
+    ),
+    "ZTS (zinc thiourea sulphate)": Orthorhombic(
+        1850, 19.65, 7.19, 3.99, 31.88, 8.99, 17.12, 7.89, 7.88, 8.58
+    ),
+    "BG (benzoyl glycine)": Orthorhombic(
+        1284, 9.33, 4.95, 4.76, 23.03, 4.36, 13.06, 1.39, 4.13, 6.74
+    ),
+    "DAHC (di-ammonium hydrogen citrate)": Orthorhombic(
+        1383, 24.86, 4.78, 12.59, 28.3, 3.74, 25.38, 7.1, 6.29, 6.67
+    ),
 }
