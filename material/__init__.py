@@ -21,13 +21,21 @@ def type(material=None):
              'Hexagonal', 'Cubic', 'Isotropic']
     """
 
-    types = ['Triclinic', 'Monoclinic', 'Orthorhombic', 'Tetragonal',
-             'Hexagonal', 'Cubic', 'Isotropic']
+    types = [
+        "Triclinic",
+        "Monoclinic",
+        "Orthorhombic",
+        "Tetragonal",
+        "Hexagonal",
+        "Cubic",
+        "Isotropic",
+    ]
 
     if material is None:
         return types
     else:
         return types[material]
+
 
 def detect(C, rho):
     """Receive a 6x6 stiffness matrix and a density and return the material.
@@ -38,8 +46,10 @@ def detect(C, rho):
 
     for material_name in CONSTANTS:
         material_constants = CONSTANTS[material_name]
-        if (np.allclose(material_constants.matrix, C)
-                and material_constants.density == rho):
+        if (
+            np.allclose(material_constants.matrix, C)
+            and material_constants.density == rho
+        ):
             return material_name
 
-    return ''
+    return ""
