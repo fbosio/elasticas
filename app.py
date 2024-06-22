@@ -32,12 +32,19 @@ def index():
 def _render_main_page():
     """Load user interface data and send a template to render HTML."""
 
-    return render_template(
-        "index.html",
-        symmetries=material.type(),
-        materials_data=_get_materials_by_type(),
-        colors=("#AA0000", "#005000", "#0000FF"),
-    )
+    kwargs = _get_main_page_template_kwargs()
+
+    return render_template("index.html", **kwargs)
+
+
+def _get_main_page_template_kwargs():
+    """Return dict of common kwargs for the HTML template of the main page."""
+
+    return {
+        "symmetries": material.type(),
+        "materials_data": _get_materials_by_type(),
+        "colors": ("#AA0000", "#005000", "#0000FF"),
+    }
 
 
 def _get_materials_by_type():
