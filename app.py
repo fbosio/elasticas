@@ -32,20 +32,27 @@ def index():
 def _render_main_page():
     """Load user interface data and send a template to render HTML."""
 
-    materials = {}
-    for name in material.CONSTANTS:
-        material_type = symmetries.detect(material.CONSTANTS[name].matrix)
-        material_type = material.type(material_type)
-        if not material_type in materials:
-            materials[material_type] = []
-        materials[material_type].append(name)
-
     return render_template(
         "index.html",
         symmetries=material.type(),
-        materials_data=materials,
+        materials_data=_get_materials_by_type(),
         colors=("#AA0000", "#005000", "#0000FF"),
     )
+
+
+def _get_materials_by_type():
+    """Return a dict with material types as keys and materials as values."""
+
+    materials_by_type = {}
+
+    for name in material.CONSTANTS:
+        material_type = symmetries.detect(material.CONSTANTS[name].matrix)
+        material_type = material.type(material_type)
+        if not material_type in materials_by_type:
+            materials_by_type[material_type] = []
+        materials_by_type[material_type].append(name)
+
+    return materials_by_type
 
 
 def _send_json_response():
@@ -79,7 +86,7 @@ def _send_response_material(data):
 
 def _send_response_symmetry(data):
     """Read symmetry name and material constants.
-    
+
     Apply symmetry and return new material constants.
     """
 
