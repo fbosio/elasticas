@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='cascade/build-full.min.css') }}" />
+  <!--[if lt IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='icons-ie7.min.css') }}><![endif]-->
+  <!--[if lt IE 9]><script src="{{ url_for('static', filename='cascade/iehtmlshiv.js') }}"></script><![endif]-->
+  <!--[if lte IE 8]><script src="{{ url_for('static', filename='cascade/shim/excanvas.js') }}"></script><![endif]-->
+  <title>Elastic waves</title>
+  <meta name="description" content="Frontend test">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div class="site-body">
+
+    <div class="cell">
+      <h1>Elastic waves</h1>
+    </div>
+
+    <div class="cell">
+      <div class="col">
+        <div class="cell panel">
+          <div class="header">Material</div>
+          <div class="body">
+
+            <div class="col width-1of3">
+              <div class="col">
+                <div class="col width-1of4">
+                  <div class="cell">Name</div>
+                </div>
+                <div class="col width-fill">
+                  <div class="cell">
+                    <select id="material" name="material">
+                      <option value="no-selection" disabled selected> -- Select -- </option>
+                      {% for material_type in materials_data %}
+                      <optgroup label="{{ material_type }}">
+                        {% for material in materials_data[material_type] %}
+                        <option value="{{ material }}">{{ material }}</option>
+                        {% endfor %}
+                      </optgroup>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="col width-1of4">
+                  <div class="cell">Symmetry</div>
+                </div>
+                <div class="col width-fill">
+                  <div class="cell">
+                    <select id="symmetry" name="symmetry">
+                      {% for symmetry in symmetries %}
+                      <option value="{{ symmetry }}">{{ symmetry }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col width-fill">
+              <div class="cell collapsible panel collapsed">
+
+                <div class="header collapse-trigger">
+                  <span class="icon icon-collapse"></span>
+                  <a href="#">
+                    Parameters
+                  </a>
+                </div>
+
+                <div class="body collapse-section">
+                  <div class="col">
+                    <div class="cell">
+                      <div class="col width-1of4">
+                        C (GPa)</div>
+                      <div class="col width-fill">
+
+                        <table class="border">
+                          <tbody>
+                            {% for i in range(6) %}
+                            <tr>
+                              {%for j in range(6) %}
+                              <td>
+                                <input placeholder="0.0" class="text" type="text" id="C{{ i }}{{ j }}" name="C{{ i }}{{ j }}" {% if i > j %} disabled {% endif %}>
+                              </td>
+                              {% endfor %}
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>
+
+                    <div class="cell">
+                      <div class="col width-1of4">
+                        &rho; (kg/m<sup>3</sup>)
+                      </div>
+                      <div class="col width-fill">
+                        <input placeholder="0.0" class="text" type="text" value="1.0" id="rho" name="rho">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="cell">
+          <span id="loading">Loading...</span>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="cell panel">
+          <div class="header">2D plot</div>
+
+          <div class="body">
+
+            <div class="col width-1of2">
+              <div class="cell">
+                <canvas width="480" height="480" id="plot2d">
+                  <p>
+                    It seems that this browser does not support the &quot;canvas&quot; tag of the <a href="https://html5test.com/">HTML5 standard.</a>
+                  </p>
+                  <p>
+                    This application <em>needs &quot;canvas&quot;</em> to generate and display interactive plots.
+                  </p>
+                  <p>
+                    Most modern browsers like <a href="https://www.google.com/chrome">Google Chrome</a>, <a href="https://www.mozilla.org/firefox/download">Mozilla Firefox</a> and <a href="https://www.microsoft.com/edge">Microsoft Edge</a> support it and are recommended for running this application correctly.
+                  </p>
+                </canvas>
+              </div>
+            </div>
+
+            <div class="col width-fill">
+
+              <div class="col">
+                <div class="cell">
+                  <table class="header-border">
+                    <thead>
+                      <tr>
+                        <th class="width-2of5"></th>
+                        {% for color in colors %}
+                        <th style="color: {{ color }}">Wave {{ loop.index }}</th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th><span id="dependent-variable-text"></span></th>
+                        {% for color in colors %}
+                        <td><output class="dep-var-output" style="color: {{ color }}">0</output></td>
+                        {% endfor %}
+                      </tr>
+                      {% for i in range(3) %}
+                      <tr>
+                        {% if i == 0 %}
+                        <th rowspan="3">Normalized polarization vector components</th>
+                        {% endif %}
+                        {% for j in range(3) %}
+                        <td><output id="A{{ j }}{{ i }}" style="color: {{ colors[j] }}">0</output></td>
+                        {% endfor %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="cell collapsible panel">
+                  <div class="header collapse-trigger">
+                    <span class="icon icon-collapse"></span>
+                    <a href="#">
+                      Parameters
+                    </a>
+                  </div>
+                  <div class="body collapse-section">
+
+                    <div class="cell">
+                      <div class="col width-3of5">
+                        <div class="col">
+                          <div class="cell">
+                            <div class="col width-1of4">
+                              <label for="angle">Angle (&deg;)</label>
+                            </div>
+                            <div class="col width-fill">
+                              <input class="text" type="text" value="0" id="angle" name="angle">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col">
+                          <div class="cell">
+                            <div class="col">
+                              Coordinate plane
+                            </div>
+
+                            <div class="col">
+
+                              <input class="radio" type="radio" id="XY-plane" value="XY" name="coordinate-plane" checked> <label for="XY-plane">XY</label>
+
+                              <input class="radio" type="radio" id="XZ-plane" value="XZ" name="coordinate-plane"> <label for="XZ-plane">XZ</label>
+
+                              <input class="radio" type="radio" id="YZ-plane" value="YZ" name="coordinate-plane"> <label for="YZ-plane">YZ</label>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col width-fill">
+                        <div class="col">
+                          Variable
+                        </div>
+                        <div class="col">
+                          <div class="col">
+                            <div class="cell">
+                              <input class="radio" type="radio" id="velocity" value="velocity" name="dependant-variable" checked> <label for="velocity">
+                                Phase velocity (m/s)</label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="cell">
+                              <input class="radio" type="radio" id="slowness" value="slowness" name="dependant-variable"> <label for="slowness">
+                                Slowness (s/m &times; 10<sup>&minus;5</sup>)</label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="cell">
+                              <input class="radio" type="radio" id="groupvelocity" value="groupvelocity" name="dependant-variable"> <label for="groupvelocity">
+                                Group velocity (m/s)</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="site-footer">
+      <div class="cell">
+        By Fede Bosio, 2024.
+        <a href="https://github.com/fbosio/elasticas">
+          Source code
+          <span class="icon icon-external-link"></span>
+        </a>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/elements.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/subroutines.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='scripts/listeners.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='cascade/app.js') }}"></script>
+</body>
+
+</html>
