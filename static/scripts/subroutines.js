@@ -66,11 +66,20 @@ var subroutines = {
 
   getSelected: function () {
     return {
-      angle: elements.inputs.angle.value,
+      angle: this.getSelectedPolarAngle(),
       variable: this.getSelectedRadioButton(["velocity", "slowness",
                                              "groupvelocity"]),
       plane: this.getSelectedRadioButton(["XY-plane", "XZ-plane", "YZ-plane"])
     }
+  },
+
+  getSelectedPolarAngle: function () {
+    angle = this.parsePolarAngle(elements.inputs.angle.value);
+
+    if (isNaN(angle)) 
+      angle = 0;
+
+    return this.normalizePolarAngleRadians(angle);
   },
 
   getSelectedRadioButton: function (group) {
@@ -81,6 +90,21 @@ var subroutines = {
         return elements.radioButtons[name].value;
       }
     }
+  },
+
+  parsePolarAngle: function (angle) {
+    return parseFloat(angle.replace(",", "."));
+  },
+
+  normalizePolarAngleRadians: function (angle) {
+    angle %= 360;
+
+    if (angle < 0)
+      angle += 360;
+
+    var angleRadians = angle * Math.PI / 180;
+
+    return angleRadians;
   },
 
   
