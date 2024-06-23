@@ -59,18 +59,14 @@ var listeners = {
 
   changePolarAngle: function (e) {
     var input = e.target;
-    var angle = parseFloat(input.value.replace(",", "."));
+    var angle = subroutines.parsePolarAngle(input.value);
 
     if (isNaN(angle)) 
       angle = input.oldValue;
-    
-    angle %= 360;
 
-    if (angle < 0)
-      angle += 360;
-      
     input.value = angle;
-    var angleRadians = angle * Math.PI / 180
+    angleRadians = subroutines.normalizePolarAngleRadians(angle);
+
     axesState["2d"].selected.angle = angleRadians;
     
     subroutines.updatePolarPlot();
