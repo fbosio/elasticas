@@ -35,7 +35,8 @@ var elementIds = {
     "XY-plane", "XZ-plane", "YZ-plane",
     "velocity", "slowness", "groupvelocity",
   ],
-  "spans": ["loading"]
+  "spans": ["loading"],
+  "divs": ["plot2d-container"],
 };
 for (var elementType in elementIds) {
   var ids = elementIds[elementType];
