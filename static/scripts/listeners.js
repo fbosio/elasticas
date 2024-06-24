@@ -109,5 +109,9 @@ var listeners = {
     },
   },
 
+  resizeWindow: function () {
+    subroutines.fitCanvasToContainer()
+    subroutines.updatePolarPlot();
+  },
     
 };
