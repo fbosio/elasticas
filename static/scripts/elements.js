@@ -35,7 +35,7 @@ var elementIds = {
     "XY-plane", "XZ-plane", "YZ-plane",
     "velocity", "slowness", "groupvelocity",
   ],
-  "spans": ["loading"],
+  "spans": ["loading", "dependent-variable-text"],
   "divs": ["plot2d-container"],
 };
 for (var elementType in elementIds) {
@@ -48,6 +48,13 @@ for (var elementType in elementIds) {
 }
 
 elements.outputs.variable = document.querySelectorAll(".dep-var-output");
+
+var labelForValues = ["velocity", "slowness", "groupvelocity"];
+elements.labels = {};
+for (var i = 0; i < labelForValues.length; i++) {
+  var labelForValue = labelForValues[i];
+  elements.labels[labelForValue] = document.querySelector('label[for="' + labelForValue + '"]');
+}
 
 
 // Methods
