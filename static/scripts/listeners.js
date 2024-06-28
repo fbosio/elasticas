@@ -77,6 +77,7 @@ var listeners = {
     var variable = e.target.value;
     axesState["2d"].selected.variable = variable;
     subroutines.updatePolarPlot();
+    subroutines.updateDependentVariableText();
   },
 
 

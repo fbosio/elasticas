@@ -56,3 +56,4 @@ for (var i = 0; i < plotEventListeners.fields.length; i++) {
 
 // Initialize
 subroutines.sendNumbers();
+subroutines.updateDependentVariableText();
