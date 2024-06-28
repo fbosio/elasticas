@@ -283,5 +283,12 @@ var subroutines = {
     }
   },
 
+  updateDependentVariableText: function () {
+    if (!elements.spans["dependent-variable-text"]) return;
+
+    var variable = axesState["2d"].selected.variable;
+    var label = elements.labels[variable];
+    elements.spans["dependent-variable-text"].innerHTML = label.innerHTML;
+  },
 
 };
