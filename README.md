@@ -39,3 +39,11 @@ flask run
 ```
 A local address like `http://127.0.0.1:5000` should be displayed, go there with your browser and you will see the web application.
 
+## Contribute
+* Report Issues.
+* Provide the density and elastic constants of new materials you want to add.
+* Follow [the fork and pull model](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models#fork-and-pull-model) if you want to change code for one of the reasons below.
+  * Fix bugs.
+  * Enhance current features.
+  * Propose new ones.
+* Send feedback to fedebosio93@gmail.com
