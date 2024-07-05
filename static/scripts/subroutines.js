@@ -146,7 +146,6 @@ var subroutines = {
     xhr.send(JSON.stringify(data));
   },
 
-
   updatePolarPlot: function () {
     var axes2DState = axesState["2d"];
     var response = axes2DState.response;
@@ -289,6 +288,19 @@ var subroutines = {
     var variable = axesState["2d"].selected.variable;
     var label = elements.labels[variable];
     elements.spans["dependent-variable-text"].innerHTML = label.innerHTML;
+  },
+
+  fitCanvasToContainer: function() {
+    var container = elements.divs["plot2d-container"];
+
+    if (!container) return;
+
+    var canvas = elements.canvases.plot2d;
+
+    var aspectRatio = canvas.width / canvas.height;
+
+    canvas.width = container.clientWidth;
+    canvas.height = canvas.width / aspectRatio;
   },
 
 };
