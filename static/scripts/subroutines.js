@@ -2,63 +2,19 @@ var subroutines = {
 
 
   initPolarPlot: function (args) {
-    var fontSize = args.fontSize;
-    var numberAngleGuides = args.numberAngleGuides;
-    var colors = args.colors;
-    
-    var canvas = elements.canvases.plot2d;
-    canvas.offscreenCanvas = document.createElement("canvas");
-    var ctx = canvas.offscreenCanvas.getContext("2d");
-    var width = canvas.width;
-    var height = canvas.height;
-    canvas.offscreenCanvas.width = width;
-    canvas.offscreenCanvas.height = height;
-    var maxRadius = Math.min(width, height) / 2;
-    var labelSpace = 2.7 * fontSize;
-    var radius = maxRadius - labelSpace;
-    var guideLabelSpace = 3.5 * fontSize;
-    var numberGuideCircles = Math.floor(radius / guideLabelSpace);
-
-    ctx.strokeStyle = "lightgray";
-    ctx.font = fontSize + "px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    for (var i = 0; i < numberAngleGuides; i++) {
-      var angle = 2 * Math.PI / numberAngleGuides * i;
-      var circleX = width/2 + radius*Math.cos(angle);
-      var circleY = height/2 - radius*Math.sin(angle);
-      ctx.beginPath();
-      ctx.moveTo(width/2, height/2);
-      ctx.lineTo(circleX, circleY);
-      ctx.stroke();
-      var textX = circleX + labelSpace/2*Math.cos(angle);
-      var textY = circleY - labelSpace/2*Math.sin(angle);
-      ctx.fillText(angle/Math.PI*180 + "°", textX, textY);
-    }
-    for (var j = 0; j < numberGuideCircles; j++) {
-      var guideRadius = radius * j / numberGuideCircles;
-      ctx.beginPath();
-      ctx.arc(width/2, height/2, guideRadius, 0, 2*Math.PI);
-      ctx.stroke();
-    }
-
-    ctx.strokeStyle = "black";
-    ctx.beginPath();
-    ctx.arc(width/2, height/2, radius, 0, 2*Math.PI);
-    ctx.stroke();
-
-    canvas.getContext("2d").drawImage(canvas.offscreenCanvas, 0, 0);
+    var plotData = this.drawOffscreenCanvas(args);
 
     var selected = this.getSelected();
     selected.r = [0, 0, 0];
     selected.A = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
 
     return {
-      radius: radius,
-      numberGuideCircles: numberGuideCircles,
-      fontSize: fontSize,
-      font: ctx.font,
-      colors: colors,
+      radius: plotData.radius,
+      numberGuideCircles: plotData.numberGuideCircles,
+      numberAngleGuides: plotData.numberAngleGuides,
+      fontSize: plotData.fontSize,
+      font: plotData.font,
+      colors: plotData.colors,
       selected: selected,
       dragState: {},
     };
@@ -279,6 +235,66 @@ var subroutines = {
       var labelValue = Math.round(i*labelValueStep);
       var labelX = centerX + i*space;
       ctx.fillText(labelValue, labelX, centerY + axes2DState.fontSize);
+    }
+  },
+
+  drawOffscreenCanvas: function(args) {
+    var fontSize = args.fontSize;
+    var numberAngleGuides = args.numberAngleGuides;
+    var colors = args.colors;
+    
+    var canvas = elements.canvases.plot2d;
+    canvas.offscreenCanvas = document.createElement("canvas");
+    var ctx = canvas.offscreenCanvas.getContext("2d");
+    var canvas = elements.canvases.plot2d;
+    var width = canvas.width;
+    var height = canvas.height;
+    canvas.offscreenCanvas.width = width;
+    canvas.offscreenCanvas.height = height;
+    var maxRadius = Math.min(width, height) / 2;
+    var labelSpace = 2.7 * fontSize;
+    var radius = maxRadius - labelSpace;
+    var guideLabelSpace = 3.5 * fontSize;
+    var numberGuideCircles = Math.floor(radius / guideLabelSpace);
+
+    var ctx = canvas.offscreenCanvas.getContext("2d");
+    ctx.strokeStyle = "lightgray";
+    ctx.font = fontSize + "px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for (var i = 0; i < numberAngleGuides; i++) {
+      var angle = 2 * Math.PI / numberAngleGuides * i;
+      var circleX = width/2 + radius*Math.cos(angle);
+      var circleY = height/2 - radius*Math.sin(angle);
+      ctx.beginPath();
+      ctx.moveTo(width/2, height/2);
+      ctx.lineTo(circleX, circleY);
+      ctx.stroke();
+      var textX = circleX + labelSpace/2*Math.cos(angle);
+      var textY = circleY - labelSpace/2*Math.sin(angle);
+      ctx.fillText(angle/Math.PI*180 + "°", textX, textY);
+    }
+    for (var j = 0; j < numberGuideCircles; j++) {
+      var guideRadius = radius * j / numberGuideCircles;
+      ctx.beginPath();
+      ctx.arc(width/2, height/2, guideRadius, 0, 2*Math.PI);
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
+    ctx.arc(width/2, height/2, radius, 0, 2*Math.PI);
+    ctx.stroke();
+
+    canvas.getContext("2d").drawImage(canvas.offscreenCanvas, 0, 0);
+
+    return {
+      radius: radius,
+      numberGuideCircles: numberGuideCircles,
+      numberAngleGuides: numberAngleGuides,
+      font: ctx.font,
+      fontSize: fontSize,
+      colors: colors,
     }
   },
 
