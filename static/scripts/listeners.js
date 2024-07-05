@@ -111,7 +111,9 @@ var listeners = {
   },
 
   resizeWindow: function () {
-    subroutines.fitCanvasToContainer()
+    subroutines.fitCanvasToContainer();
+    var plotData = subroutines.drawOffscreenCanvas(axesState["2d"]);
+    axesState["2d"].radius = plotData.radius;
     subroutines.updatePolarPlot();
   },
     

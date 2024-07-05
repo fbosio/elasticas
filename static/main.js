@@ -3,6 +3,7 @@ var colors = [];
 for (var i = 0; i < elements.outputs.variable.length; i++) {
   colors.push(elements.outputs.variable[i].style.color);
 }
+subroutines.fitCanvasToContainer();
 var axesState = {
   "2d": subroutines.initPolarPlot({
     fontSize: 14,
@@ -10,7 +11,6 @@ var axesState = {
     colors: colors,
   }),
 };
-
 
 // Events
 for (var i = 0; i < 6; i++) {
@@ -52,7 +52,7 @@ for (var i = 0; i < plotEventListeners.fields.length; i++) {
     canvas.addEventListener("mouse" + eventName, listenerName, false);
   }
 }
-
+window.addEventListener("resize", listeners.resizeWindow);
 
 // Initialize
 subroutines.sendNumbers();
