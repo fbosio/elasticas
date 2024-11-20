@@ -117,5 +117,15 @@ var listeners = {
     axesState["2d"].numberGuideCircles = plotData.numberGuideCircles;
     subroutines.updatePolarPlot();
   },
+
+  clickExportButton: function () {
+    var response = axesState["2d"].response;
+    var encoded = encodeURIComponent(JSON.stringify(response));
+    var data = "data:text/json;charset=utf-8," + encoded;
+    var element = elements.anchors.download;
+    element.setAttribute("href", data);
+    element.setAttribute("download", "elasticas.json");
+    element.click();
+  },
     
 };
