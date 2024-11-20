@@ -38,6 +38,9 @@ for (var i = 0; i < elementTypeListenerData.length; i++) {
   var element = elements[elementType][elementName];
   element.addEventListener("change", listeners[listenerName], false);
 }
+
+elements.buttons.export.addEventListener("click", listeners.clickExportButton);
+
 var plotEventListeners = {
   events: ["down", "move", "up"],
   fields: ["polar"],

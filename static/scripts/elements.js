@@ -37,6 +37,8 @@ var elementIds = {
   ],
   "spans": ["loading", "dependent-variable-text"],
   "divs": ["plot2d-container"],
+  "buttons": ["export"],
+  "anchors": ["download"],
 };
 for (var elementType in elementIds) {
   var ids = elementIds[elementType];
