@@ -79,6 +79,12 @@ def get_group_velocities(C, rho, l, c, A):
     Return the group velocity vector `g` in m/s.
 
     It is assumed that `C.shape == (6, 6)`.
+
+    `g.shape` depends on all of its inputs.
+    But basically, if `l.shape` is (m, n, 3), `g.shape` is (m, n, 3, 3).
+    The structure resembles that of `l` and `c`.
+    `g.shape[-2]` corresponds to a coordinate (x, y, z) like `l.shape[-1]`.
+    `g.shape[-1]` corresponds to a polarization or "mode" like `c.shape[-1]`.
     """
 
     new_A = SlimMatrix.get_matrix_from_vector(np.asarray(A).swapaxes(-2, -1))
@@ -103,6 +109,22 @@ def do(C, rho, l):
             `A`: matrix with normalized polarization vectors per column
 
     It is assumed that `C.shape == (6, 6)`.
+
+    Dimensions of `Gamma`, `c` and `A` depend on `l`.
+    If `l` is a three-dimensional vector:
+        `Gamma.shape` is (3, 3), `c.shape` is 3 and `A.shape` is (3, 3).
+    If `l.shape` is (k, 3):
+        `Gamma.shape` is (k, 3, 3)
+        `c.shape` is (k, 3)
+        `A.shape` is (k, 3, 3).
+    If `l.shape` is (m, n, 3):
+        `Gamma.shape` is (m, n, 3, 3)
+        `c.shape` is (m, n, 3)
+        `A.shape` is (m, n, 3, 3)
+    etc.
+
+    Note: `Gamma` will be a Christoffel tensor as long as the direction of
+     propagation is a unit vector, i. e., `norm(l) == 1`.
     """
 
     Gamma, c, A = _null_output(l)
