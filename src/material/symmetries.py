@@ -1,4 +1,5 @@
 """Detection and application of symmetries to matrices of materials."""
+
 import numpy as np
 
 from .types import Material

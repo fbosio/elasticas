@@ -9,7 +9,8 @@ import os
 
 from flask import Flask, request, render_template, abort
 
-import material, plots
+import material
+import plots
 from material import symmetries
 
 
@@ -75,7 +76,7 @@ def _get_materials_by_type():
     for name in material.CONSTANTS:
         material_type = symmetries.detect(material.CONSTANTS[name].matrix)
         material_type = material.type(material_type)
-        if not material_type in materials_by_type:
+        if material_type not in materials_by_type:
             materials_by_type[material_type] = []
         materials_by_type[material_type].append(name)
 

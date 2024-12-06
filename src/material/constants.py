@@ -103,7 +103,7 @@ class Orthorhombic(ConstantsBase):
             c[4, 4],
             c[5, 5],
         )
-        return f"Hexagonal{attributes}"
+        return f"Orthorhombic{attributes}"
 
 
 CONSTANTS = {

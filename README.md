@@ -37,6 +37,7 @@ Make sure you have a proper [execution policy](https://docs.microsoft.com/en-us/
 ## Run locally
 Make sure the virtual enviroment is activated and then
 ```bash
+cd src
 flask run
 ```
 A local address like `http://127.0.0.1:5000` should be displayed, go there with your browser and you will see the web application.
