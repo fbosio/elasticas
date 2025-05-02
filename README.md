@@ -3,7 +3,7 @@ Web application for calculating velocities of elastic waves in solids.
 
 Currently hosted in https://www.elasticas.app/
 
-There's a new, responsive UI made with [Cascade Framework](https://jslegers.github.io/cascadeframework/) in https://www.elasticas.app/ui
+The UI is responsive and was made with [Cascade Framework](https://jslegers.github.io/cascadeframework/).
 
 
 ## Get source code

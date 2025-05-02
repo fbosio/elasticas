@@ -7,12 +7,11 @@
 
 import os
 
-from flask import Flask, request, render_template, abort
+from flask import Flask, abort, render_template, request
 
 import material
 import plots
 from material import symmetries
-
 
 app = Flask("elasticas")
 
@@ -26,19 +25,7 @@ def index():
 
     subroutines = {"GET": _render_main_page, "POST": _send_json_response}
     subroutine = subroutines[request.method]
-    return subroutine()
 
-
-@app.route("/ui", methods=["GET", "POST"])
-def ui():
-    """Render HTML or send JSON response depending on the HTTP method.
-
-    Fancy version.
-    """
-
-    subroutines = {"GET": _render_main_page_fancier_ui, "POST": _send_json_response}
-
-    subroutine = subroutines[request.method]
     return subroutine()
 
 
@@ -49,13 +36,6 @@ def _render_main_page():
     kwargs = _get_main_page_template_kwargs()
 
     return render_template("index.html", **kwargs)
-
-
-def _render_main_page_fancier_ui():
-    """Load user interface data and send a template to render HTML nicely."""
-    kwargs = _get_main_page_template_kwargs()
-
-    return render_template("ui.html", **kwargs)
 
 
 def _get_main_page_template_kwargs():
