@@ -29,6 +29,11 @@ def index():
     return subroutine()
 
 
+@app.route("/refraction")
+def refraction():
+    return render_template("refraction.html")
+
+
 # Subroutines
 def _render_main_page():
     """Load user interface data and send a template to render HTML."""
