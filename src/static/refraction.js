@@ -135,16 +135,14 @@ var refraction = {
         if (!refraction.isDraggingAngle) return
 
         event = event || window.event
-        var target = event.target || event.srcElement
-        var rect = target.getBoundingClientRect();
-        var width = target.width;
-        var height = target.height;
 
+        var canvas = document.getElementById('canvas')
+        var rect = canvas.getBoundingClientRect();
+        var width = canvas.width;
+        var height = canvas.height;
 
-
-        var x = event.clientX - rect.x - width / 2;
-        var y = event.clientY - rect.y - height / 2;
-        console.log(rect.id + ' ' + target + ' ' + width + ' ' + height + ' ' + x + ' ' + y + ' ' + rect.x + ' ' + rect.y + ' ' + event.clientX + ' ' + event.clientY)
+        var x = event.clientX - rect.left - width / 2;
+        var y = event.clientY - rect.top - height / 2;
 
         var isDraggingUp = y < 0
 
@@ -316,5 +314,3 @@ var refraction = {
         context.stroke()
     }
 }
-
-refraction.initialize()
