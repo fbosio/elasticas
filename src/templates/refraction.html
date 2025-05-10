@@ -1,226 +1,255 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="{{ url_for('static', filename='cascade/build-full.min.css') }}"
+    />
+    <!--[if lt IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='icons-ie7.min.css') }}><![endif]-->
+    <!--[if lt IE 9
+      ]><script src="{{ url_for('static', filename='cascade/iehtmlshiv.js') }}"></script
+    ><![endif]-->
+    <!--[if lte IE 8
+      ]><script src="{{ url_for('static', filename='cascade/shim/excanvas.js') }}"></script
+    ><![endif]-->
+    <title>Refraction</title>
+    <meta name="description" content="Frontend test" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="stylesheet" type="text/css" media="all"
-    href="{{ url_for('static', filename='cascade/build-full.min.css') }}" />
-  <!--[if lt IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='icons-ie7.min.css') }}><![endif]-->
-  <!--[if lt IE 9]><script src="{{ url_for('static', filename='cascade/iehtmlshiv.js') }}"></script><![endif]-->
-  <!--[if lte IE 8]><script src="{{ url_for('static', filename='cascade/shim/excanvas.js') }}"></script><![endif]-->
-  <title>Refraction</title>
-  <meta name="description" content="Frontend test">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+  <body onload="refraction.initialize()">
+    <div class="site-body">
+      <div class="cell">
+        <h1>Refraction</h1>
+      </div>
 
-<body onload="refraction.initialize()">
-  <div class="site-body">
+      <div class="cell">
+        <div class="cell panel">
+          <div class="header">Materials</div>
 
-    <div class="cell">
-      <h1>Refraction</h1>
-    </div>
+          <div class="body">
+            <div class="col">
+              <div class="col width-1of2">
+                <div class="cell panel">
+                  <div class="header">Up</div>
 
-    <div class="cell">
-      <div class="cell panel">
-
-        <div class="header">
-          Materials
-        </div>
-
-        <div class="body">
-          <div class="col">
-            <div class="col width-1of2">
-              <div class="cell panel">
-                <div class="header">
-                  Up
-                </div>
-
-                <div class="body">
-                  <div class="cell">
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        Name
+                  <div class="body">
+                    <div class="cell">
+                      <div class="col">
+                        <div class="col width-2of5">Name</div>
+                        <div class="col width-fill">
+                          <select id="material-up" name="material-up"></select>
+                        </div>
                       </div>
-                      <div class="col width-fill">
-                        <select id="material-up" name="material-up">
-                        </select>
+
+                      <div class="col">
+                        <div class="col width-2of5">
+                          <label for="lambda-up">&lambda; (GPa)</label>
+                        </div>
+                        <div class="col width-fill">
+                          <input
+                            class="text"
+                            type="text"
+                            value="0"
+                            id="lambda-up"
+                            name="lambda-up"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="col width-2of5">
+                          <label for="mu-up">&mu; (GPa)</label>
+                        </div>
+                        <div class="col width-fill">
+                          <input
+                            class="text"
+                            type="text"
+                            value="0"
+                            id="mu-up"
+                            name="mu-up"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="col width-2of5">
+                          <label for="rho-up">Density (kg/m<sup>3</sup>)</label>
+                        </div>
+                        <div class="col width-fill">
+                          <input
+                            class="text"
+                            type="text"
+                            value="0"
+                            id="rho-up"
+                            name="rho-up"
+                          />
+                        </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="col">
-                      <div class="col width-2of5">
-                        <label for="lambda-up">&lambda; (GPa)</label>
+                  <div class="body">
+                    <div class="cell">
+                      <div class="col">
+                        <div class="col width-2of5">
+                          Slowness (s/m &times; 10<sup>&minus;5</sup>)
+                        </div>
+                        <div class="col width-fill">
+                          <input type="text" id="slowness-up" readonly />
+                        </div>
                       </div>
-                      <div class="col width-fill">
-                        <input class="text" type="text" value="0" id="lambda-up" name="lambda-up">
+
+                      <div class="col">
+                        <div class="col width-2of5">Angle (&deg;)</div>
+                        <div class="col width-fill">
+                          <input type="text" id="angle-up" />
+                        </div>
                       </div>
                     </div>
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        <label for="mu-up">&mu; (GPa)</label>
-                      </div>
-                      <div class="col width-fill">
-                        <input class="text" type="text" value="0" id="mu-up" name="mu-up">
-                      </div>
-                    </div>
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        <label for="rho-up">Density (kg/m<sup>3</sup>)</label>
-                      </div>
-                      <div class="col width-fill">
-                        <input class="text" type="text" value="0" id="rho-up" name="rho-up">
-                      </div>
-                    </div>
-
                   </div>
                 </div>
-
-                <div class="body">
-                  <div class="cell">
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        Slowness (s/m &times; 10<sup>&minus;5</sup>)
-                      </div>
-                      <div class="col width-fill">
-                        <input type="text" id="slowness-up" readonly />
-                      </div>
-                    </div>
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        Angle (&deg;)
-                      </div>
-                      <div class="col width-fill">
-                        <input type="text" id="angle-up" />
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
               </div>
-            </div>
 
-            <div class="col width-fill">
-              <div class="cell panel">
-                <div class="header">
-                  Down
-                </div>
+              <div class="col width-fill">
+                <div class="cell panel">
+                  <div class="header">Down</div>
 
-                <div class="body">
-                  <div class="cell">
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        Name
+                  <div class="body">
+                    <div class="cell">
+                      <div class="col">
+                        <div class="col width-2of5">Name</div>
+                        <div class="col width-fill">
+                          <select
+                            id="material-down"
+                            name="material-down"
+                          ></select>
+                        </div>
                       </div>
-                      <div class="col width-fill">
-                        <select id="material-down" name="material-down">
-                        </select>
+
+                      <div class="col">
+                        <div class="col width-2of5">
+                          <label for="lambda-down">&lambda; (GPa)</label>
+                        </div>
+                        <div class="col width-fill">
+                          <input
+                            class="text"
+                            type="text"
+                            value="0"
+                            id="lambda-down"
+                            name="lambda-down"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="col width-2of5">
+                          <label for="mu-down">&mu; (GPa)</label>
+                        </div>
+                        <div class="col width-fill">
+                          <input
+                            class="text"
+                            type="text"
+                            value="0"
+                            id="mu-down"
+                            name="mu-down"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="col width-2of5">
+                          <label for="rho-down"
+                            >Density (kg/m<sup>3</sup>)</label
+                          >
+                        </div>
+                        <div class="col width-fill">
+                          <input
+                            class="text"
+                            type="text"
+                            value="0"
+                            id="rho-down"
+                            name="rho-down"
+                          />
+                        </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="col">
-                      <div class="col width-2of5">
-                        <label for="lambda-down">&lambda; (GPa)</label>
+                  <div class="body">
+                    <div class="cell">
+                      <div class="col">
+                        <div class="col width-2of5">
+                          Slowness (s/m &times; 10<sup>&minus;5</sup>)
+                        </div>
+                        <div class="col width-fill">
+                          <input type="text" id="slowness-down" readonly />
+                        </div>
                       </div>
-                      <div class="col width-fill">
-                        <input class="text" type="text" value="0" id="lambda-down" name="lambda-down">
+
+                      <div class="col">
+                        <div class="col width-2of5">Angle (&deg;)</div>
+                        <div class="col width-fill">
+                          <input type="text" id="angle-down" />
+                        </div>
                       </div>
                     </div>
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        <label for="mu-down">&mu; (GPa)</label>
-                      </div>
-                      <div class="col width-fill">
-                        <input class="text" type="text" value="0" id="mu-down" name="mu-down">
-                      </div>
-                    </div>
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        <label for="rho-down">Density (kg/m<sup>3</sup>)</label>
-                      </div>
-                      <div class="col width-fill">
-                        <input class="text" type="text" value="0" id="rho-down" name="rho-down">
-                      </div>
-                    </div>
-
                   </div>
                 </div>
-
-                <div class="body">
-                  <div class="cell">
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        Slowness (s/m &times; 10<sup>&minus;5</sup>)
-                      </div>
-                      <div class="col width-fill">
-                        <input type="text" id="slowness-down" readonly />
-                      </div>
-                    </div>
-
-                    <div class="col">
-                      <div class="col width-2of5">
-                        Angle (&deg;)
-                      </div>
-                      <div class="col width-fill">
-                        <input type="text" id="angle-down" />
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
         </div>
 
-      </div>
-
-      <div class="col">
-        <div class="cell" id="plot2d-container">
-          <canvas width="480" height="480" id="canvas">
-            <p>
-              It seems that this browser does not support the &quot;canvas&quot; tag of the <a
-                href="https://html5test.com/">HTML5 standard.</a>
-            </p>
-            <p>
-              This application <em>needs &quot;canvas&quot;</em> to generate and display interactive plots.
-            </p>
-            <p>
-              Most modern browsers like <a href="https://www.google.com/chrome">Google Chrome</a>, <a
-                href="https://www.mozilla.org/firefox/download">Mozilla Firefox</a> and <a
-                href="https://www.microsoft.com/edge">Microsoft Edge</a> support it and are recommended for running this
-              application correctly.
-            </p>
-          </canvas>
+        <div class="col">
+          <div class="cell" id="plot2d-container">
+            <canvas width="480" height="480" id="canvas">
+              <p>
+                It seems that this browser does not support the
+                &quot;canvas&quot; tag of the
+                <a href="https://html5test.com/">HTML5 standard.</a>
+              </p>
+              <p>
+                This application <em>needs &quot;canvas&quot;</em> to generate
+                and display interactive plots.
+              </p>
+              <p>
+                Most modern browsers like
+                <a href="https://www.google.com/chrome">Google Chrome</a>,
+                <a href="https://www.mozilla.org/firefox/download"
+                  >Mozilla Firefox</a
+                >
+                and
+                <a href="https://www.microsoft.com/edge">Microsoft Edge</a>
+                support it and are recommended for running this application
+                correctly.
+              </p>
+            </canvas>
+          </div>
         </div>
       </div>
 
-    </div>
-
-    <div class="site-footer">
-      <div class="cell">
-        By Fede Bosio, 2024.
-        <a href="https://github.com/fbosio/elasticas">
-          Source code
-          <span class="icon icon-external-link"></span>
-        </a>
+      <div class="site-footer">
+        <div class="cell">
+          By Fede Bosio, 2024.
+          <a href="https://github.com/fbosio/elasticas">
+            Source code
+            <span class="icon icon-external-link"></span>
+          </a>
+        </div>
       </div>
     </div>
 
-  </div>
-
-  <script src="{{ url_for('static', filename='refraction.js') }}" defer></script>
-</body>
-
+    <script
+      src="{{ url_for('static', filename='refraction.js') }}"
+      defer
+    ></script>
+  </body>
 </html>
