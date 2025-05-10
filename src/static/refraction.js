@@ -1,6 +1,7 @@
 var refraction = {
     defaultPlotPadding: 10,
     initialAngleUp: 45,
+    initialCanvasSize: null,
     isDraggingAngle: false,
 
     materialNamePhysicalConstants: {
@@ -31,17 +32,20 @@ var refraction = {
     colors: { up: "#288DA8", down: "#E69F5C" },
 
     initialize: function () {
-        this.addElementEventListeners();
-        this.fillElements();
-        this.plot();
+        var canvas = document.getElementById('canvas')
+        refraction.initialCanvasSize = { width: canvas.width, height: canvas.height }
+
+        this.addElementEventListeners()
+        this.fillElements()
+        this.fitCanvasToContainer()
     },
 
     addElementEventListeners: function () {
-        this.addMaterialSelectionElementEventListener("material-up");
-        this.addTextFieldElementEventListener("angle-up");
-        this.addMaterialSelectionElementEventListener("material-down");
-        this.addTextFieldElementEventListener("angle-down");
-        this.addCanvasElementEventListeners("canvas");
+        this.addMaterialSelectionElementEventListener('material-up')
+        this.addTextFieldElementEventListener('angle-up')
+        this.addMaterialSelectionElementEventListener('material-down')
+        this.addTextFieldElementEventListener('angle-down')
+        this.addCanvasElementEventListeners('canvas')
     },
 
     fillElements: function () {
@@ -80,24 +84,29 @@ var refraction = {
     },
 
     addMaterialSelectionElementEventListener: function (elementId) {
-        this.addEvent(elementId, "change", this.selectMaterial);
+        this.addEventById(elementId, 'change', this.selectMaterial)
     },
 
     addTextFieldElementEventListener: function (elementId) {
-        this.addEvent(elementId, "change", this.changeAngle);
+        this.addEventById(elementId, 'change', this.changeAngle)
     },
 
     addCanvasElementEventListeners: function (elementId) {
-        this.addEvent(elementId, "mousedown", this.startAngleDrag);
-        this.addEvent(elementId, "mousemove", this.dragAngle);
-        this.addEvent(elementId, "mouseup", this.stopAngleDrag);
+        this.addEventById(elementId, 'mousedown', this.startAngleDrag)
+        this.addEventById(elementId, 'mousemove', this.dragAngle)
+        this.addEventById(elementId, 'mouseup', this.stopAngleDrag)
     },
 
-    addEvent: function (elementId, type, listener) {
-        var element = document.getElementById(elementId);
+    addEventById: function (elementId, type, listener) {
+        var element = document.getElementById(elementId)
+        this.addEventToElement(element, type, listener)
+    },
 
-        if (element.addEventListener) element.addEventListener(type, listener);
-        else element.attachEvent("on" + type, listener);
+    addEventToElement: function (element, type, listener) {
+        if (element.addEventListener)
+            element.addEventListener(type, listener)
+        else
+            element.attachEvent('on' + type, listener)
     },
 
     selectMaterial: function (event) {
@@ -127,9 +136,7 @@ var refraction = {
 
         for (var selectionElementId in refraction.selectionElementIdFieldElementIds) {
             fieldElementIds =
-                refraction.selectionElementIdFieldElementIds[
-                    selectionElementId
-                ];
+                refraction.selectionElementIdFieldElementIds[selectionElementId];
             if (textElementId === fieldElementIds.angle) {
                 refraction.fillOtherAngle(selectionElementId);
                 refraction.plot();
@@ -179,6 +186,17 @@ var refraction = {
 
     stopAngleDrag: function () {
         refraction.isDraggingAngle = false;
+    },
+
+    fitCanvasToContainer: function () {
+        var container = document.getElementById("plot2d-container")
+        var canvas = document.getElementById('canvas')
+        var aspectRatio = canvas.width / canvas.height;
+        canvas.width = container.clientWidth;
+        if (canvas.width > refraction.initialCanvasSize.width)
+            canvas.width = refraction.initialCanvasSize.width
+        canvas.height = canvas.width / aspectRatio;
+        refraction.plot()
     },
 
     fillOutputElements: function (selectionElementId) {
