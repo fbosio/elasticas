@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='cascade/build-full.min.css') }}" />
+  <link rel="stylesheet" type="text/css" media="all"
+    href="{{ url_for('static', filename='cascade/build-full.min.css') }}" />
   <!--[if lt IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='icons-ie7.min.css') }}><![endif]-->
   <!--[if lt IE 9]><script src="{{ url_for('static', filename='cascade/iehtmlshiv.js') }}"></script><![endif]-->
   <!--[if lte IE 8]><script src="{{ url_for('static', filename='cascade/shim/excanvas.js') }}"></script><![endif]-->
@@ -13,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
+<body onload="refraction.initialize()">
   <div class="site-body">
 
     <div class="cell">
