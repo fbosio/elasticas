@@ -246,6 +246,7 @@ var refraction = {
     clearCanvas: function (canvas) {
         var context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
+        context.lineWidth = 1;
     },
 
     getPolarCoordinates: function (padding) {
@@ -274,6 +275,8 @@ var refraction = {
 
     drawSemicircles: function (canvas, polarCoordinates) {
         var context = canvas.getContext("2d");
+
+        context.lineWidth = 2;
 
         var radiusUp = polarCoordinates.up[0];
         var radiusDown = polarCoordinates.down[0];
