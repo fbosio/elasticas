@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elastic waves (3D)</title>
+</head>
+
+<body>
+    <h1>Elastic waves (3D)</h1>
+
+    <p>
+        <select id="material" name="material">
+            <option value="no-selection" disabled selected> -- Select -- </option>
+            {% for material_type in materials_data %}
+            <optgroup label="{{ material_type }}">
+                {% for material in materials_data[material_type] %}
+                <option value="{{ material }}">{{ material }}</option>
+                {% endfor %}
+            </optgroup>
+            {% endfor %}
+        </select>
+    </p>
+
+    <p>
+        <canvas width="480" height="480" style="touch-action: none" id="renderCanvas" width></canvas>
+    </p>
+
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="{{ url_for('static', filename='3d.js') }}" defer></script>
+</body>
+
+</html>

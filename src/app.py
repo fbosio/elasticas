@@ -34,6 +34,15 @@ def refraction():
     return render_template("refraction.html")
 
 
+@app.route("/3d", methods=["GET", "POST"])
+def _3d():
+
+    subroutines = {"GET": _render_3d_page, "POST": _send_json_response_3d}
+    subroutine = subroutines[request.method]
+
+    return subroutine()
+
+
 # Subroutines
 def _render_main_page():
     """Load user interface data and send a template to render HTML."""
@@ -41,6 +50,11 @@ def _render_main_page():
     kwargs = _get_main_page_template_kwargs()
 
     return render_template("index.html", **kwargs)
+
+
+def _render_3d_page():
+    """Load user interface data for the 3D page and send a template to render HTML."""
+    return render_template("3d.html", materials_data=_get_materials_by_type())
 
 
 def _get_main_page_template_kwargs():
@@ -84,6 +98,21 @@ def _send_json_response():
         }[content](data)
     except KeyError:  # Error raisen if the JSON lacks a required field
         abort(400)  # 400 = HTTP status code for bad request
+
+
+def _send_json_response_3d():
+    """Read request data, process and send response with 3D surface points and faces."""
+
+    data = _send_response_material(request.json)
+
+    rho = data["rho"]
+    C = data["C"]
+
+    plot_data_3d = plots.get_velocity_surfaces(C, rho)
+
+    return {
+        "plotData3d": plot_data_3d,
+    }
 
 
 def _send_response_material(data):
