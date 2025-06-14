@@ -113,6 +113,11 @@ class SphericalPlot3D:
             + np.c_[: (n - 1) * n : n][..., np.newaxis]
         ).ravel()
 
+        # Scale array values to avoid depth-related visual issues
+        c_vertices *= 10 / c_max
+        m_vertices *= 10 / m_max
+        cg_vertices *= 10 / cg_max
+
         # Pack data in a JSON-compatible dictionary
         return {
             "velocity": {"vertices": c_vertices.tolist(), "max": c_max},
