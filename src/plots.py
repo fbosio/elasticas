@@ -80,10 +80,12 @@ class SphericalPlot3D:
         self.angle_samples = angle_samples
 
     def __call__(self, C, rho):
+        # Calculate surface points
         _, c, A = calculations.do(C, rho, self.p)
         m = 1e5 / c
         cg = 1e6 * calculations.get_group_velocities(C, rho, self.p, c, A)
 
+        # Turn invalid surfaces into null
         if (np.isnan(c) | np.isinf(c)).any():
             c = np.zeros_like(c)
         if (np.isnan(m) | np.isinf(m)).any():
@@ -91,6 +93,7 @@ class SphericalPlot3D:
         if (np.isnan(cg) | np.isinf(cg)).any():
             cg = np.zeros_like(cg)
 
+        # Make arrays compatible with OpenGL vertex streams
         p = self.p[np.newaxis, ...]
         c = c.transpose(2, 0, 1)[..., np.newaxis]
         c_vertices = (c * p).reshape(c.shape[0], -1)
@@ -110,6 +113,7 @@ class SphericalPlot3D:
             + np.c_[: (n - 1) * n : n][..., np.newaxis]
         ).ravel()
 
+        # Pack data in a JSON-compatible dictionary
         return {
             "velocity": {"vertices": c_vertices.tolist(), "max": c_max},
             "slowness": {"vertices": m_vertices.tolist(), "max": m_max},
