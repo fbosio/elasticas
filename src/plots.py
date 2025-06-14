@@ -113,7 +113,10 @@ class SphericalPlot3D:
         return {
             "velocity": {"vertices": c_vertices.tolist(), "max": c_max},
             "slowness": {"vertices": m_vertices.tolist(), "max": m_max},
-            "groupvelocity": {"vertices": cg_vertices.tolist(), "max": cg_max},
+            "groupvelocity": {
+                "vertices": cg_vertices.tolist(),
+                "max": cg_max,
+            },
             "faces": faces.tolist(),
         }
 
