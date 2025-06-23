@@ -15,11 +15,11 @@ var createScene = function () {
 
     var meshData = [];
     var materialData = [{
-        "color": "#AA0000",
+        "color": "#FF0000",
         "alpha": 1.0
     },
     {
-        "color": "#005000",
+        "color": "#00FF00",
         "alpha": 0.4
     },
     {
