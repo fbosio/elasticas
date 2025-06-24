@@ -4,6 +4,7 @@ var canvas = document.getElementById("renderCanvas");
 var engine = new BABYLON.Engine(canvas, true);
 
 var createScene = function () {
+    // Basic setup of the scene
     var scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3.White()
 
@@ -13,6 +14,7 @@ var createScene = function () {
 
     new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0.5, 0.6, 0), scene);
 
+    // Meshes
     var meshData = [];
     var materialData = [{
         "color": "#FF0000",
@@ -42,6 +44,7 @@ var createScene = function () {
         meshData.push(mesh);
     }
 
+    // Listener
     var materialSelectElement = document.getElementById("material");
     materialSelectElement.addEventListener("change", function (event) {
         var target = event.target;
@@ -83,6 +86,7 @@ var createScene = function () {
     return scene;
 }
 
+// 3D engine setup
 var scene = createScene();
 engine.runRenderLoop(function () {
     scene.render();
