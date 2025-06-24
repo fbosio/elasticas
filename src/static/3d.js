@@ -13,7 +13,6 @@ var createScene = function () {
     new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0.5, 0.6, 0), scene);
 
     // Meshes
-    var meshData = [];
     var materialData = [{
         "color": "#FF0000",
         "alpha": 1.0
@@ -27,20 +26,7 @@ var createScene = function () {
         "alpha": 0.2
     }
     ];
-    for (i = 0; i < materialData.length; i++) {
-        var materialColor = materialData[i].color
-        var standardMaterial = new BABYLON.StandardMaterial(materialColor, scene);
-
-        standardMaterial.diffuseColor = new BABYLON.Color3.FromHexString(materialColor);
-        standardMaterial.alpha = materialData[i].alpha;
-        standardMaterial.backFaceCulling = false;
-
-        var mesh = new BABYLON.Mesh("mesh" + i, scene);
-        mesh.material = standardMaterial;
-        mesh.markVerticesDataAsUpdatable(BABYLON.VertexBuffer.PositionKind, true);
-
-        meshData.push(mesh);
-    }
+    var meshData = makeMeshes(materialData, scene);
 
     // Axes
     var axesData = {
@@ -93,6 +79,28 @@ var createScene = function () {
     });
 
     return scene;
+}
+
+// Subroutines
+function makeMeshes(materialData, scene) {
+    var meshData = [];
+
+    for (i = 0; i < materialData.length; i++) {
+        var materialColor = materialData[i].color
+        var standardMaterial = new BABYLON.StandardMaterial(materialColor, scene);
+
+        standardMaterial.diffuseColor = new BABYLON.Color3.FromHexString(materialColor);
+        standardMaterial.alpha = materialData[i].alpha;
+        standardMaterial.backFaceCulling = false;
+
+        var mesh = new BABYLON.Mesh("mesh" + i, scene);
+        mesh.material = standardMaterial;
+        mesh.markVerticesDataAsUpdatable(BABYLON.VertexBuffer.PositionKind, true);
+
+        meshData.push(mesh);
+    }
+
+    return meshData;
 }
 
 // 3D engine setup
