@@ -42,6 +42,17 @@ var createScene = function () {
         meshData.push(mesh);
     }
 
+    // Axes
+    var axesData = {
+        xAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(10, 0, 0)],
+        yAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 10, 0)],
+        zAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, 10)],
+    };
+    for (var axis in axesData) {
+        var line = new BABYLON.MeshBuilder.CreateLines(axis, {points: axesData[axis]}, scene);
+        line.color = new BABYLON.Color3.Black();
+    }
+
     // Listener
     var materialSelectElement = document.getElementById("material");
     materialSelectElement.addEventListener("change", function (event) {
