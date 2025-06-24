@@ -8,7 +8,7 @@ var createScene = function () {
 
     var camera = new BABYLON.ArcRotateCamera(
         "camera",
-        (2 * Math.PI) / 3,
+        Math.PI / 3,
         Math.PI / 3,
         30,
         BABYLON.Vector3.Zero(),
@@ -115,10 +115,20 @@ function makeMeshes(materialData, scene) {
 }
 
 function makeAxes(scene) {
+    var axisLength = 10;
     var namePoints = {
-        xAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(10, 0, 0)],
-        yAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 10, 0)],
-        zAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, 10)],
+        xAxis: [
+            new BABYLON.Vector3.Zero(),
+            new BABYLON.Vector3(axisLength, 0, 0),
+        ],
+        yAxis: [
+            new BABYLON.Vector3.Zero(),
+            new BABYLON.Vector3(0, axisLength, 0),
+        ],
+        zAxis: [
+            new BABYLON.Vector3.Zero(),
+            new BABYLON.Vector3(0, 0, axisLength),
+        ],
     };
     for (var name in namePoints) {
         var points = namePoints[name];
@@ -126,6 +136,69 @@ function makeAxes(scene) {
         var line = new BABYLON.MeshBuilder.CreateLines(name, options, scene);
         line.color = new BABYLON.Color3.Black();
     }
+
+    var xLabel = makeXLabel(scene);
+    xLabel.position.x = axisLength * 1.05;
+
+    var yLabel = makeYLabel(scene);
+    yLabel.position.z = axisLength * 1.05;
+
+    var zLabel = makeZLabel(scene);
+    zLabel.position.y = axisLength * 1.05;
+}
+
+function makeXLabel(scene) {
+    var lines = [
+        [new BABYLON.Vector3(0, 1, -1), new BABYLON.Vector3(0, -1, 1)],
+        [new BABYLON.Vector3(0, 1, 1), new BABYLON.Vector3(0, -1, -1)],
+    ];
+    var options = { lines: lines };
+
+    var mesh = new BABYLON.MeshBuilder.CreateLineSystem(
+        "xLetter",
+        options,
+        scene
+    );
+    mesh.color = new BABYLON.Color3.Black();
+    mesh.addRotation(0, -Math.PI / 3, 0);
+    mesh.scaling.scaleInPlace(0.2);
+
+    return mesh;
+}
+
+function makeYLabel(scene) {
+    var points = [
+        new BABYLON.Vector3(0, -1, 0),
+        new BABYLON.Vector3(0, 0, 0),
+        new BABYLON.Vector3(0, 1, -1),
+        new BABYLON.Vector3(0, 0, 0),
+        new BABYLON.Vector3(0, 1, 1),
+    ];
+    var options = { points: points };
+
+    var mesh = new BABYLON.MeshBuilder.CreateLines("yLetter", options, scene);
+    mesh.color = new BABYLON.Color3.Black();
+    mesh.addRotation(0, -Math.PI / 3, 0);
+    mesh.scaling.scaleInPlace(0.2);
+
+    return mesh;
+}
+
+function makeZLabel(scene) {
+    var points = [
+        new BABYLON.Vector3(0, 1, -1),
+        new BABYLON.Vector3(0, 1, 1),
+        new BABYLON.Vector3(0, -1, -1),
+        new BABYLON.Vector3(0, -1, 1),
+    ];
+    var options = { points: points };
+
+    var mesh = new BABYLON.MeshBuilder.CreateLines("zLetter", options, scene);
+    mesh.color = new BABYLON.Color3.Black();
+    mesh.addRotation(0, -Math.PI / 3, 0);
+    mesh.scaling.scaleInPlace(0.2);
+
+    return mesh;
 }
 
 // 3D engine setup
