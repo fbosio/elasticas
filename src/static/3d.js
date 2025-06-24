@@ -40,19 +40,7 @@ var createScene = function () {
     var meshData = makeMeshes(materialData, scene);
 
     // Axes
-    var axesData = {
-        xAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(10, 0, 0)],
-        yAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 10, 0)],
-        zAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, 10)],
-    };
-    for (var axis in axesData) {
-        var line = new BABYLON.MeshBuilder.CreateLines(
-            axis,
-            { points: axesData[axis] },
-            scene
-        );
-        line.color = new BABYLON.Color3.Black();
-    }
+    makeAxes(scene);
 
     // Listener
     var materialSelectElement = document.getElementById("material");
@@ -124,6 +112,20 @@ function makeMeshes(materialData, scene) {
     }
 
     return meshData;
+}
+
+function makeAxes(scene) {
+    var namePoints = {
+        xAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(10, 0, 0)],
+        yAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 10, 0)],
+        zAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, 10)],
+    };
+    for (var name in namePoints) {
+        var points = namePoints[name];
+        var options = { points: points };
+        var line = new BABYLON.MeshBuilder.CreateLines(name, options, scene);
+        line.color = new BABYLON.Color3.Black();
+    }
 }
 
 // 3D engine setup
