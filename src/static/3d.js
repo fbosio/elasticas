@@ -4,27 +4,38 @@ var engine = new BABYLON.Engine(canvas, true);
 var createScene = function () {
     // Basic setup of the scene
     var scene = new BABYLON.Scene(engine);
-    scene.clearColor = new BABYLON.Color3.White()
+    scene.clearColor = new BABYLON.Color3.White();
 
-    var camera = new BABYLON.ArcRotateCamera("camera", 2 * Math.PI / 3, Math.PI / 3, 30, BABYLON.Vector3.Zero(),
-        scene)
+    var camera = new BABYLON.ArcRotateCamera(
+        "camera",
+        (2 * Math.PI) / 3,
+        Math.PI / 3,
+        30,
+        BABYLON.Vector3.Zero(),
+        scene
+    );
     camera.attachControl(canvas, true);
 
-    new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0.5, 0.6, 0), scene);
+    new BABYLON.HemisphericLight(
+        "light",
+        new BABYLON.Vector3(0.5, 0.6, 0),
+        scene
+    );
 
     // Meshes
-    var materialData = [{
-        "color": "#FF0000",
-        "alpha": 1.0
-    },
-    {
-        "color": "#00FF00",
-        "alpha": 0.4
-    },
-    {
-        "color": "#0000FF",
-        "alpha": 0.2
-    }
+    var materialData = [
+        {
+            color: "#FF0000",
+            alpha: 1.0,
+        },
+        {
+            color: "#00FF00",
+            alpha: 0.4,
+        },
+        {
+            color: "#0000FF",
+            alpha: 0.2,
+        },
     ];
     var meshData = makeMeshes(materialData, scene);
 
@@ -35,7 +46,11 @@ var createScene = function () {
         zAxis: [new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, 10)],
     };
     for (var axis in axesData) {
-        var line = new BABYLON.MeshBuilder.CreateLines(axis, {points: axesData[axis]}, scene);
+        var line = new BABYLON.MeshBuilder.CreateLines(
+            axis,
+            { points: axesData[axis] },
+            scene
+        );
         line.color = new BABYLON.Color3.Black();
     }
 
@@ -51,7 +66,7 @@ var createScene = function () {
         }
 
         var data = {
-            material: nameMaterial
+            material: nameMaterial,
         };
 
         var xhr = new XMLHttpRequest();
@@ -79,23 +94,31 @@ var createScene = function () {
     });
 
     return scene;
-}
+};
 
 // Subroutines
 function makeMeshes(materialData, scene) {
     var meshData = [];
 
     for (i = 0; i < materialData.length; i++) {
-        var materialColor = materialData[i].color
-        var standardMaterial = new BABYLON.StandardMaterial(materialColor, scene);
+        var materialColor = materialData[i].color;
+        var standardMaterial = new BABYLON.StandardMaterial(
+            materialColor,
+            scene
+        );
 
-        standardMaterial.diffuseColor = new BABYLON.Color3.FromHexString(materialColor);
+        standardMaterial.diffuseColor = new BABYLON.Color3.FromHexString(
+            materialColor
+        );
         standardMaterial.alpha = materialData[i].alpha;
         standardMaterial.backFaceCulling = false;
 
         var mesh = new BABYLON.Mesh("mesh" + i, scene);
         mesh.material = standardMaterial;
-        mesh.markVerticesDataAsUpdatable(BABYLON.VertexBuffer.PositionKind, true);
+        mesh.markVerticesDataAsUpdatable(
+            BABYLON.VertexBuffer.PositionKind,
+            true
+        );
 
         meshData.push(mesh);
     }
