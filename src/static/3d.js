@@ -1,5 +1,3 @@
-var plotData3d = {};
-
 var canvas = document.getElementById("renderCanvas");
 var engine = new BABYLON.Engine(canvas, true);
 
@@ -62,7 +60,7 @@ var createScene = function () {
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (e) {
             var json = JSON.parse(e.target.responseText);
-            plotData3d = json.plotData3d;
+            var plotData3d = json.plotData3d;
 
             var faces = plotData3d.faces;
             var vertices = plotData3d.velocity.vertices;
